@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import express, {Application, NextFunction, Request, Response} from 'express';
+import express, {Application} from 'express';
 import {useExpressServer} from "routing-controllers";
 import PostController from "./controllers/PostController";
 import dotenv from 'dotenv';

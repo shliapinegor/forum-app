@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UseAfter, UseBefore} from "routing-controllers";
+import {Body, Controller, Delete, Get, Param, Post, Put} from "routing-controllers";
 import NewPostDto from "../dto/NewPostDto";
 import PostService from "../service/PostService";
 import PostServiceImpl from "../service/PostServiceImpl";
