@@ -1,4 +1,4 @@
-import CommentDto from "./CommentDto";
+import Comment from "../models/Comment";
 
 export default class PostDto {
     id: string;
@@ -8,9 +8,9 @@ export default class PostDto {
     dateCreated: Date;
     tags: string[];
     likes: number;
-    comments: CommentDto[]
+    comments: Comment[]
 
-    constructor(id: string, title: string, content: string, author: string, dateCreated: Date, tags: string[], likes: number, comments: CommentDto[]) {
+    constructor(id: string, title: string, content: string, author: string, dateCreated: Date, tags: string[], likes: number, comments: Comment[]) {
         this.id = id;
         this.title = title;
         this.content = content;

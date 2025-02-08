@@ -1,5 +1,5 @@
 import {Document, Schema, model} from 'mongoose';
-import CommentDto from "../dto/CommentDto";
+import Comment from "./Comment";
 
 export interface IPost extends Document {
     title: string,
@@ -8,7 +8,7 @@ export interface IPost extends Document {
     author: string;
     dateCreated: Date;
     likes: number;
-    comments: CommentDto[]
+    comments: Comment[]
 }
 
 const postSchema = new Schema<IPost>(

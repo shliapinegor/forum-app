@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import express, {Application} from 'express';
 import {useExpressServer} from "routing-controllers";
-import PostController from "./controllers/PostController";
+import PostController from "./forum/controllers/PostController";
 import dotenv from 'dotenv';
 import * as mongoose from "mongoose";
-import {ErrorHandlingMiddleWare} from "./middleware/ErrorHandlingMiddleWare";
+import {ErrorHandlingMiddleWare} from "./forum/middleware/ErrorHandlingMiddleWare";
+import UserController from "./account/controllers/UserController";
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ app.use(express.json());
 
 
 useExpressServer(app, {
-    controllers: [PostController],
+    controllers: [PostController, UserController],
     middlewares: [ErrorHandlingMiddleWare],
     defaultErrorHandler: false
 })

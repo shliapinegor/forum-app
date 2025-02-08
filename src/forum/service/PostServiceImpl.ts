@@ -8,20 +8,19 @@ import PeriodsDto from "../dto/PeriodsDto";
 export default class PostServiceImpl implements PostService{
 
     async createPost(author: string, title: string, content: string, tags: Set<string>): Promise<PostDto> {
-        const newPost = new P({
-            title, content, tags, author});
+        const newPost = new P({title, content, tags, author});
         const res = await newPost.save();
-        return res.toObject() as PostDto;
+        return res.toObject({flattenObjectIds: true}) as PostDto;
     }
 
     async findPostsByAuthor(author: string): Promise<PostDto[]> {
         const posts = await P.find({author: author});
-        return posts.map(p => p.toObject() as PostDto)
+        return posts.map(p => p.toObject({flattenObjectIds: true}) as PostDto)
     }
 
     async findPostById(id: string): Promise<PostDto> {
         const post = await P.findById(id)
-        return post!.toObject() as PostDto;
+        return post!.toObject({flattenObjectIds: true}) as PostDto;
     }
 
     async updatePost(id: string, updatePostDto: IUpdateBody): Promise<PostDto> {
@@ -37,7 +36,7 @@ export default class PostServiceImpl implements PostService{
             if(!result){
                 throw new HttpError(404, `Post with id = ${id} not found`)
             }
-        return result!.toObject() as PostDto
+        return result.toObject({flattenObjectIds: true}) as PostDto
 
     }
 
@@ -61,12 +60,12 @@ export default class PostServiceImpl implements PostService{
         const startDate = new Date(periods.dateFrom);
         const endDate = new Date(periods.dateTo);
         const posts = await P.find({$and: [{dateCreated: {$gte: startDate}}, {dateCreated: {$lte: endDate}}]})
-        return posts.map(p => p.toObject() as PostDto)
+        return posts.map(p => p.toObject({flattenObjectIds: true}) as PostDto)
     }
 
     async findPostsByTags(tags: string[]): Promise<PostDto[]> {
         const posts = await P.find({tags: {$elemMatch: {$in: tags}}});
-        return posts.map(p => p.toObject() as PostDto)
+        return posts.map(p => p.toObject({flattenObjectIds: true}) as PostDto)
     }
 
 }
