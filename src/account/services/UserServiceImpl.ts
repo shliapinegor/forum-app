@@ -12,7 +12,6 @@ export default class UserServiceImpl implements UserService{
         const find = await User.findOne({login: newUserDto.login})
         if(find) throw new HttpError(404, `User with login = ${newUserDto.login} is already exist`)
         const encode = encodeBase64(newUserDto.password);
-        const decode = decodeBase64(encode)
         const newUser =  await new User({...newUserDto, password: encode}).save()
         return new UserDto(newUser.login, newUser.roles, newUser.firstName, newUser.lastName)
     }
