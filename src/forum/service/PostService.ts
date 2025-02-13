@@ -9,11 +9,11 @@ export default interface PostService {
 
     findPostsByAuthor(author: string): Promise<PostDto[]>;
 
-    updatePost(id: string, updatePostDto: IUpdateBody): Promise<PostDto>;
+    updatePost(id: string, updatePostDto: IUpdateBody, login: string): Promise<PostDto>;
 
-    deletePost(id: string): Promise<PostDto>;
+    deletePost(id: string, login: string): Promise<PostDto>;
 
-    addComment(id: string, user: string, message: string): Promise<PostDto>;
+    addComment(id: string, author: string, message: string): Promise<PostDto>;
 
     addLike(id: string): Promise<PostDto>;
 

@@ -1,7 +1,6 @@
 import NewUserDto from "../dto/NewUserDto";
 import UserDto from "../dto/UserDto";
 import {UpdateDto} from "../dto/UpdateDto";
-import {LoginDto} from "../dto/LoginDto";
 
 export default interface UserService{
 
@@ -17,5 +16,5 @@ export default interface UserService{
 
     deleteRole(login: string, role: string): Promise<UserDto>;
 
-    login(loginData: LoginDto): Promise<UserDto>;
+    login(token: string) : Promise<UserDto>;
 }

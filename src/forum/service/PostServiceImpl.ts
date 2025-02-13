@@ -23,25 +23,33 @@ export default class PostServiceImpl implements PostService{
         return post!.toObject({flattenObjectIds: true}) as PostDto;
     }
 
-    async updatePost(id: string, updatePostDto: IUpdateBody): Promise<PostDto> {
-        const result = await P.findByIdAndUpdate(id, updatePostDto);
+    async updatePost(id: string, updatePostDto: IUpdateBody, login: string): Promise<PostDto> {
+        const result = await P.findById(id);
         if(!result){
             throw new HttpError(404, `Post with id = ${id} not found`)
         }
-        return this.findPostById(id);
+
+        if(result.author !== login){
+            throw new HttpError(401, 'Access denied. you dont have permission')
+        }
+        return await P.findByIdAndUpdate(id, updatePostDto, {new: true, lean: true}) as PostDto;
     }
 
-    async deletePost(id: string): Promise<PostDto> {
-        const result = await P.findByIdAndDelete(id);
+    async deletePost(id: string, login: string): Promise<PostDto> {
+        const result = await P.findById(id)
             if(!result){
                 throw new HttpError(404, `Post with id = ${id} not found`)
             }
+            if(result.author !== login){
+                throw new HttpError(401, 'Access denied. you dont have permission')
+            }
+        await P.findByIdAndDelete(id);
         return result.toObject({flattenObjectIds: true}) as PostDto
 
     }
 
-    async addComment(id: string, user: string, message: string): Promise<PostDto> {
-        const result = await P.findByIdAndUpdate(id, {$push: {comments: {user, likes: 0, dateCreated: Date.now(), message}}})
+    async addComment(id: string, author: string, message: string): Promise<PostDto> {
+        const result = await P.findByIdAndUpdate(id, {$push: {comments: {author, likes: 0, dateCreated: Date.now(), message}}})
         if(!result){
             throw new HttpError(404, `Post with id = ${id} not found`)
         }
